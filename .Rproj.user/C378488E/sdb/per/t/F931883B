@@ -1,0 +1,15 @@
+{
+    "contents" : "library(\"pwrgg2\")\nload(\"Data/data_qgc.RData\")\ncol.var.is.zero=which(colwise(var,na.rm=T)(data_qgc[-c(1,2)])==0)\ndata_qgc=data_qgc[-(2+col.var.is.zero)]\nwhere.na=which(apply(data_qgc[-c(1,2)],1,function(row)any(is.na(row))))\ndata_qgc=data_qgc[-where.na,]\n\n# remove.na.rows(data_qgc[-c(1,2)])\npca.qgc=prcomp(data_qgc[-c(1,2)],center=TRUE,scale.=TRUE)\n\nby=0.06\nmixed=c(204,168,204)\nnacl=c(203,207,161)\nnahco3=c(120,202,165)\nbreaks=read.xlsx2(\"Data/Addtional informations/QGC colour code.xlsx\",1,stringsAsFactors=FALSE)\nbreaks=c(breaks$Block,\"DIN\",\"DUC\")\nvalues=c(color_range(mixed,4,by),color_range(nacl,5,by),color_range(nahco3,2,by),\"red\",\"blue\")\n\n\nggpca.qgc=ggpca.biplot(pca.qgc,grp=ordered(data_qgc$Site,levels=breaks))+scale_color_manual(breaks=breaks,values=values)",
+    "created" : 1385519314194.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "4027024475",
+    "id" : "F931883B",
+    "lastKnownWriteTime" : 1381287476,
+    "path" : "~/Projects/13-050 QGC02/Archives/analysis_qgc.R",
+    "properties" : {
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}

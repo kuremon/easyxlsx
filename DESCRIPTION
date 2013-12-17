@@ -1,0 +1,26 @@
+Package: easyxlsx
+Type: Package
+Title: Easy modification of arrays or data frames after reading from excel.
+Version: 1.0
+Date: 2013-06-25
+Author: Clement Bonini
+Maintainer: Clement Bonini <clement.bonini@gmail.com>
+Description: Easy modification of arrays or data frames after reading from
+    excel.
+Imports:
+    lazyr
+Depends:
+    XLConnect
+License: What license is it under?
+Collate:
+    'apply_to.R'
+    'convert_toolbox.R'
+    'lodsplit.R'
+    'na2value.R'
+    'readWorkbook.R'
+    'transpose.R'
+    'color_in.R'
+    'easyxlsx.R'
+    'writeWorkbook.R'
+    'separate_value_units.R'
+    'complete_missing.R'

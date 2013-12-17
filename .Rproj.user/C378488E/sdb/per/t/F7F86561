@@ -1,0 +1,15 @@
+{
+    "contents" : "#' @title Read entire Excel workbook \n#' @param filename The name of excel workbook to read. If not specified \\code{\\link{file.choose}} is called.\n#' @param as.data.frame Should the data frames read from the workbook's spreadsheets be stacked together.\n#' @param keep Names (or position) of the spreadsheets to keep. If not specified all spreadsheets are read.\n#' @param drop Names (or position) of the spreadsheets to drop. If not specified all spreadsheets are read.\n#' \\code{keep} has precedence over \\code{drop}.\n#' @param name.var If \\code{name.var} is not missing, the name of each spreadsheets is added to the corresponding\n#' data frames as a new variable with name \\code{name.var} and position \\code{position}.\n#' @param position See above. By default, \\code{position=1}.\n#' @param as.factor Should the new variable be a factor? By default, \\code{as.factor=TRUE}.\n#' @param verbose Should messages be displayed?\n#' @param ... Additional arguments to \\code{\\link{readWorksheet}}\n#' @export\nreadWorkbook=function(filename=file.choose(),as.data.frame=TRUE,keep,drop,name.var,position,as.factor,verbose=TRUE,...){\n    wb=loadWorkbook(filename)\n    if(!missing(keep)){\n      ws=keep\n    }else{\n      if(missing(drop)) drop=NULL\n      ws=setdiff(getSheets(wb),drop)\n    }\n    \n    L=do.call(readWorksheet,list(wb,ws,...))\n    if(!as.data.frame){\n      if(verbose) message(\"A list of data.frame is returned.\")\n      return(L)\n    }else{\n      df=ldply(L,identity)\n      if(missing(name.var)){\n        if(verbose) message(\"A data.frame is returned.\")\n        return(df[-1])\n      }else{\n        if(missing(position)) position=1\n        if(missing(as.factor)) as.factor=TRUE\n        \n        if(as.factor) df[[\".id\"]]=factor(df[[\".id\"]]) \n        df=rearrange(df,c(\".id\"=position))\n        df=rename(df,c(\".id\"=name.var))\n        if(verbose) message(\"A data.frame is returned. The new variable is a \",\n                ifelse(as.factor,\"factor\",\"character vector\"),\" in position \",position,\" with name \",name.var,\".\")\n        return(df)\n      }\n      \n    }\n}",
+    "created" : 1385515744279.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "315282207",
+    "id" : "F7F86561",
+    "lastKnownWriteTime" : 1381363898,
+    "path" : "~/R&D/R packages/Source packages/easyxlsx/R/readWorkbook.R",
+    "properties" : {
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}
